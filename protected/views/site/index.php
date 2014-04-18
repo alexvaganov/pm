@@ -11,7 +11,12 @@ $this->pageTitle=Yii::app()->name;
         <h3>
             <em>We</em> Build Great Templates,
             <em>You</em> Make Them Better</h3>
-        <a href="#about" class="btn btn-default btn-lg">Find Out More</a>
+        <?php if(Yii::app()->user->isGuest) {
+            echo CHtml::link('Войти в систему', array('user/login'), array('class' => 'btn btn-large'));
+        } else {
+            echo CHtml::link('Личный кабинет', array('#'), array('class' => 'btn btn-large'));
+        }
+        ?>
     </div>
 </div>
 <!-- /Full Page Image Header Area -->
@@ -21,7 +26,7 @@ $this->pageTitle=Yii::app()->name;
     <div class="container">
         <div class="row">
             <div class="span4 offset4">
-                <?php $this->widget('UserAuth') ?>
+
             </div>
         </div>
     </div>

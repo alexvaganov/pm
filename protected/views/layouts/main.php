@@ -5,28 +5,29 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="ru" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <?php
-    echo CHtml::scriptFile($this->assetsBase. '/bootstrap/js/bootstrap.js');
-    echo CHtml::cssFile($this->assetsBase . '/bootstrap/css/bootstrap.min.css');
-    echo CHtml::cssFile($this->assetsBase . '/css/font-awesome.min.css');
+    echo CHtml::scriptFile(CHtml::asset(Yii::getPathOfAlias('application.assets') . '/bootstrap/js/bootstrap.js'));
+    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets') . '/bootstrap/css/bootstrap.min.css'));
+    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets'). '/font-awesome/css/font-awesome.min.css'));
+    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets'). '/css/stylish-portfolio.css'));
     ?>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
-
 <body>
-    <div id="mainmenu">
+    <div id="mainmenu" class="navbar">
+        <div class="navbar-inner">
         <?php $this->widget('zii.widgets.CMenu',array(
             'items'=>array(
-                array('label'=>'Home', 'url'=>array('post/index')),
-                array('label'=>'About', 'url'=>array('site/page', 'view'=>'about')),
-                array('label'=>'Contact', 'url'=>array('site/contact')),
-                array('label'=>'Login', 'url'=>array('site/login'), 'visible'=>Yii::app()->user->isGuest),
-                array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                array('label'=>'Главная', 'url'=>array('/')),
+                array('label'=>'', array('class'=>'divider-vertical')),
+                array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/user/logout'), 'visible'=>!Yii::app()->user->isGuest)
+            ),
+            'htmlOptions'=>array(
+                'class'=>'nav'
             ),
         )); ?>
+        </div>
     </div><!-- mainmenu -->
 
     <div id="container">

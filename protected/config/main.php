@@ -8,7 +8,8 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Менеджер проектов',
-    'language' => 'ru',
+    'language'=>'ru',
+    'theme'=>'classic',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -58,6 +59,7 @@ return array(
         'user'=>array(
             'class' => 'RWebUser',
             'allowAutoLogin'=>true,
+            'loginUrl'=>array('user/login'),
         ),
         'authManager'=>array(
             'class'=>'RDbAuthManager',
