@@ -3,9 +3,8 @@
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
-class Controller extends CController
+class Controller extends RController
 {
-    private $_assetsBase;
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
 	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
@@ -22,8 +21,14 @@ class Controller extends CController
 	 */
 	public $breadcrumbs=array();
 
-    public function getAssetsBase() {
-        $this->_assetsBase = CHtml::asset(Yii::getPathOfAlias('application.assets'));
-        return $this->_assetsBase;
+    /**
+     * Substitutes the layout by the state of user
+     */
+    public function init() {
+        if (Yii::app()->user->isGuest)
+            $this->layout = '//layouts/public';
+        else
+            $this->layout = '//layouts/private';
     }
+
 }

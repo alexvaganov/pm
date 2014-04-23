@@ -45,9 +45,14 @@ return array(
 
 	// application components
 	'components'=>array(
+        'clientScript'=>array(
+            'scriptMap'=>array(
+                'jquery.js'=>false,
+                'jquery.min.js'=>false,
+            ),
+        ),
 		// uncomment the following to enable URLs in path-format
-
-		'urlManager'=>array(
+        'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',

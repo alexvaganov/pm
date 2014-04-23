@@ -7,31 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <?php
-    echo CHtml::scriptFile(CHtml::asset(Yii::getPathOfAlias('application.assets') . '/bootstrap/js/bootstrap.js'));
-    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets') . '/bootstrap/css/bootstrap.min.css'));
-    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets'). '/font-awesome/css/font-awesome.min.css'));
-    echo CHtml::cssFile(CHtml::asset(Yii::getPathOfAlias('application.assets'). '/css/stylish-portfolio.css'));
+    $assets = Yii::app()->assetManager->publish( Yii::getPathOfAlias('application.assets'));
+    echo CHtml::cssFile($assets.'/css/stylish-portfolio.css');
+    echo CHtml::cssFile($assets.'/bootstrap/css/bootstrap.min.css');
+    echo CHtml::cssFile($assets.'/font-awesome/css/font-awesome.min.css');
+    echo CHtml::scriptFile($assets.'/jquery/jquery-2.1.0.js');
     ?>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body>
-    <div id="mainmenu" class="navbar">
-        <div class="navbar-inner">
-        <?php $this->widget('zii.widgets.CMenu',array(
-            'items'=>array(
-                array('label'=>'Главная', 'url'=>array('/')),
-                array('label'=>'', array('class'=>'divider-vertical')),
-                array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/user/logout'), 'visible'=>!Yii::app()->user->isGuest)
-            ),
-            'htmlOptions'=>array(
-                'class'=>'nav'
-            ),
-        )); ?>
-        </div>
-    </div><!-- mainmenu -->
 
     <div id="container">
         <?php echo $content; ?>
     </div><!-- page -->
+
+    <?php echo CHtml::scriptFile($assets. '/bootstrap/js/bootstrap.min.js') ?>
 </body>
 </html>

@@ -12,9 +12,9 @@ $this->pageTitle=Yii::app()->name;
             <em>We</em> Build Great Templates,
             <em>You</em> Make Them Better</h3>
         <?php if(Yii::app()->user->isGuest) {
-            echo CHtml::link('Войти в систему', array('user/login'), array('class' => 'btn btn-large'));
+            echo CHtml::link('Войти в систему', array('user/login'), array('class' => 'btn btn-default btn-lg'));
         } else {
-            echo CHtml::link('Личный кабинет', array('#'), array('class' => 'btn btn-large'));
+            echo CHtml::link('Личный кабинет', array('#'), array('class' => 'btn btn-default btn-lg'));
         }
         ?>
     </div>
