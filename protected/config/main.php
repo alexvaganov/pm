@@ -33,13 +33,15 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-        'user' => array(
+        'user'=>array(
             // названия таблиц взяты по умолчанию, их можно изменить
             'tableUsers' => 'users',
             'tableProfiles' => 'profiles',
             'tableProfileFields' => 'profiles_fields',
         ),
-        'rights',
+        'rights'=>array(
+            'appLayout'=>'application.views.layouts.private',
+        ),
 
 	),
 
@@ -57,7 +59,9 @@ return array(
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<controller:\w+>/index/<param:\w+>'=>'<controller>/index',
+                '<module:\w+>/<controller:\w+>/index/<param:\w+>'=>'<module>/<controller>/index',
 			),
 		),
 
@@ -83,6 +87,10 @@ return array(
 			'username' => 'root',
 			'password' => '9926604',
 			'charset' => 'utf8',
+            // включаем профайлер
+            'enableProfiling'=>true,
+            // показываем значения параметров
+            'enableParamLogging' => true,
 		),
 
 		'errorHandler'=>array(
@@ -95,7 +103,16 @@ return array(
 				array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
+
 				),
+                array(
+                    // направляем результаты профайлинга в ProfileLogRoute (отображается
+                    // внизу страницы)
+                    'class'=>'CProfileLogRoute',
+                    'levels'=>'profile',
+                    'enabled'=>true,
+                ),
+
 				// uncomment the following to show log messages on web pages
 				/*
 				array(

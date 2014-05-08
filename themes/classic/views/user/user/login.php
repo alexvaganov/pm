@@ -27,7 +27,7 @@ $this->breadcrumbs=array(
                             <h3 class="text-center">Вход в систему</h3>
                         </div>
 
-                        <div class="modal-body">
+                        <div class="modal-body overflow-auto">
                             <?php echo CHtml::beginForm('', 'post', array('class'=>'form col-md-12 center-block')); ?>
 
                             <div class="form-group">

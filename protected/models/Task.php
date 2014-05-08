@@ -34,8 +34,7 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id, project_id, parent_id, is_favorite, is_burning, is_expire, responsible, author', 'numerical', 'integerOnly'=>true),
+			array('project_id, parent_id, is_favorite, is_burning, is_expire, responsible_id, author_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
 			array('essense, deadline', 'safe'),
 			// The following rule is used by search().
@@ -52,6 +51,11 @@ class Task extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'project'=>array(self::BELONGS_TO, 'Project', 'project_id'),
+            'responsible'=>array(self::BELONGS_TO, 'User', 'responsible_id'),
+            'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+            'subtasks'=>array(self::HAS_MANY, 'Task', 'parent_id'),
+            'parent'=>array(self::BELONGS_TO, 'Task', 'parent_id'),
 		);
 	}
 
@@ -62,16 +66,17 @@ class Task extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'essense' => 'Essense',
-			'deadline' => 'Deadline',
-			'project_id' => 'Project',
-			'parent_id' => 'Parent',
-			'is_favorite' => 'Is Favorite',
-			'is_burning' => 'Is Burning',
-			'is_expire' => 'Is Expire',
-			'responsible_id' => 'Responsible',
-			'author_id' => 'Author',
+			'title' => 'Название',
+			'essense' => 'Сущность задачи',
+			'deadline' => 'Дедлайн',
+			'project_id' => 'Проект',
+			'parent_id' => 'Родитель',
+			'is_favorite' => 'Избранная',
+			'is_burning' => 'Горящая',
+			'is_expire' => 'Истекает срок',
+			'responsible_id' => 'Ответственный',
+			'author_id' => 'Создатель',
+            'subtasks' => 'Подзадачи',
 		);
 	}
 
@@ -99,7 +104,6 @@ class Task extends CActiveRecord
 		$criteria->compare('deadline',$this->deadline,true);
 		$criteria->compare('project_id',$this->project_id);
 		$criteria->compare('parent_id',$this->parent_id);
-		$criteria->compare('is_favorite',$this->is_favorite);
 		$criteria->compare('is_burning',$this->is_burning);
 		$criteria->compare('is_expire',$this->is_expire);
 		$criteria->compare('responsible_id',$this->responsible);
@@ -120,4 +124,97 @@ class Task extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getUrl()
+    {
+        return Yii::app()->createUrl('task/view', array('id'=>$this->id));
+    }
+
+    public function setUrl($url)
+    {
+        $this->url=$url;
+    }
+
+    public function getAllTasks($projectId=null,$taskId=null)
+    {
+        $criteria=new CDbCriteria;
+        $criteria->select='title, id, parent_id';
+        if($projectId!=null)
+        {
+            $criteria->addCondition('project_id=:project_id');
+            $criteria->params[':project_id']=$projectId;
+        }
+        if($taskId!=null)
+        {
+            $criteria->addCondition('parent_id=:parent_id');
+            $criteria->params[':parent_id']=$taskId;
+        }
+        $tasks=$this->findAll($criteria);
+        $result=array();
+        if($tasks)
+        {
+            foreach($tasks as $task)
+            {
+                if($task['parent_id']===null)
+                    $task['parent_id']=0;
+                $task->url=Yii::app()->createUrl('task/view',array('id'=>$task->id));
+                $result[$task['parent_id']][]=$task;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param $tasks-array of tasks
+     * @param $parentId-parent task id
+     * @return array of tasks
+     */
+    public function buildTreeArray($tasks, $parentId)
+    {
+        $arrayTree=array();
+        if(isset($tasks[$parentId]))
+        {
+            foreach($tasks[$parentId] as $task)
+            {
+                $children=$this->buildTreeArray($tasks, $task->id);
+                if(!empty($children))
+                    $arrayTree[]=array('text'=>CHtml::link($task->title,$task->url),'children'=>$children);
+                else
+                    $arrayTree[]=array('text'=>CHtml::link($task->title,$task->url));
+            }
+        }
+        return $arrayTree;
+    }
+
+    public  function scopes()
+    {
+        return array(
+            'own'=>array(
+                'condition'=>'responsible_id=:user_id OR author_id=:user_id',
+                'params'=>array(':user_id'=>Yii::app()->user->id),
+            ),
+            'burning'=>array(
+                'condition'=>'is_burning=1',
+            ),
+            'deadline'=>array(
+                'condition'=>'deadline<=DATE_ADD(NOW(), INTERVAL 1 DAY)',
+            )
+        );
+    }
+
+    /**
+     * This is invoked before the record is saved.
+     * @return boolean whether the record should be saved.
+     */
+    public function beforeSave()
+    {
+        if(parent::beforeSave())
+        {
+            if($this->isNewRecord)
+                $this->author_id=Yii::app()->user->id;
+            return true;
+        }
+        else
+            return false;
+    }
 }

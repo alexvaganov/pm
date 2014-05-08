@@ -1,24 +1,20 @@
 <?php $this->beginContent(Rights::module()->appLayout); ?>
 
-<div id="rights" class="container">
+<div id='sidebar-left' class="col-xs-2 col-sm-2">
+    <?php if( $this->id!=='install' ): ?>
 
-	<div id="content">
+        <div id="menu">
+            <?php $this->renderPartial('/_menu'); ?>
+        </div>
 
-		<?php if( $this->id!=='install' ): ?>
+    <?php endif; ?>
+</div>
 
-			<div id="menu">
-
-				<?php $this->renderPartial('/_menu'); ?>
-
-			</div>
-
-		<?php endif; ?>
+<div id="content" class="col-md-10">
 
 		<?php $this->renderPartial('/_flash'); ?>
 
 		<?php echo $content; ?>
-
-	</div><!-- content -->
 
 </div>
 

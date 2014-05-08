@@ -1,21 +1,17 @@
 <?php /* @var $this Controller */ ?>
 <?php $this->beginContent('//layouts/private'); ?>
-<div class="row">
-    <div class="span-4">
+    <div id='sidebar-left' class="col-xs-2 col-sm-2">
             <?php
-            $this->beginWidget('zii.widgets.CPortlet', array(
-                'title'=>'Operations',
-            ));
             $this->widget('zii.widgets.CMenu', array(
                 'items'=>$this->menu,
-                'htmlOptions'=>array('class'=>'operations'),
+                'encodeLabel'=>false,
+                'htmlOptions'=>array('class'=>'nav main-menu'),
             ));
-            $this->endWidget();
             ?>
     </div>
 
-    <div class="span-8">
+    <div id="content" class="col-md-10">
             <?php echo $content; ?>
     </div>
-</div>
+
 <?php $this->endContent(); ?>

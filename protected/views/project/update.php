@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Project <?php echo $model->id; ?></h1>
+<h2>Редактирование проекта "<?php echo $model->title; ?>"</h2>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model,'managers'=>$managers)); ?>

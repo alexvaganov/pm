@@ -9,7 +9,8 @@
  * @property string $goals
  * @property string $start
  * @property string $deadline
- * @property integer $manager
+ * @property integer $manager_id
+ * @property integer $author_id
  */
 class Project extends CActiveRecord
 {
@@ -30,12 +31,12 @@ class Project extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('manager', 'numerical', 'integerOnly'=>true),
+			array('manager_id', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
-			array('goals', 'safe'),
-			array('start, deadline', 'date'),
+            array('title, goals', 'required'),
+			array('start, deadline', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss'),
 			// The following rule is used by search().
-			array('title, goals, start, deadline, manager', 'safe', 'on'=>'search'),
+			array('title, goals, start, deadline, manager_id, author_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +50,8 @@ class Project extends CActiveRecord
 		return array(
             'author' => array(self::BELONGS_TO, 'User', 'author_id'),
             'manager' => array(self::BELONGS_TO, 'User', 'manager_id'),
-            'tasks' => array(self::HAS_MANY, 'Task', 'project_id'),
+            'maintasks' => array(self::HAS_MANY, 'Task', 'project_id', 'condition'=>'parent_id IS NULL'),
+            'alltasks' => array(self::HAS_MANY, 'Task', 'project_id'),
 		);
 	}
 
@@ -60,12 +62,13 @@ class Project extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'goals' => 'Goals',
-			'start' => 'Start',
-			'deadline' => 'Deadline',
-			'manager' => 'Manager',
-            'author' => 'Author',
+			'title' => 'Название',
+			'goals' => 'Цели',
+			'start' => 'Дата начала',
+			'deadline' => 'Дедлайн',
+			'manager_id' => 'Менеджер',
+            'author_id' => 'Создатель',
+            'responsible' => 'Ответственный',
 		);
 	}
 
@@ -87,13 +90,8 @@ class Project extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('goals',$this->goals,true);
-		$criteria->compare('start',$this->start,true);
-		$criteria->compare('deadline',$this->deadline,true);
-		$criteria->compare('manager',$this->manager);
-        $criteria->compare('author',$this->manager);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -110,7 +108,8 @@ class Project extends CActiveRecord
         ));
     }
 
-	/**
+
+    /**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
@@ -137,5 +136,24 @@ class Project extends CActiveRecord
                 throw new CHttpException(404,'The requested page does not exist.');
         }
         return $this->_model;
+    }
+
+
+    /**
+     * This is invoked before the record is saved.
+     * @return boolean whether the record should be saved.
+     */
+    public function beforeSave()
+    {
+        if(parent::beforeSave())
+        {
+            if($this->isNewRecord)
+                $this->author_id=Yii::app()->user->id;
+            if($this->start!='0000-00-00 00:00:00')
+                $this->start=new CDbExpression('NOW()');
+            return true;
+        }
+        else
+            return false;
     }
 }

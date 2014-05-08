@@ -14,7 +14,7 @@ $this->pageTitle=Yii::app()->name;
         <?php if(Yii::app()->user->isGuest) {
             echo CHtml::link('Войти в систему', array('user/login'), array('class' => 'btn btn-default btn-lg'));
         } else {
-            echo CHtml::link('Личный кабинет', array('#'), array('class' => 'btn btn-default btn-lg'));
+            echo CHtml::link('Личный кабинет', array('project/index'), array('class' => 'btn btn-default btn-lg'));
         }
         ?>
     </div>

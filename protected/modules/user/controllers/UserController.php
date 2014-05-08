@@ -50,11 +50,15 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $criteria=new CDbCriteria();
+        if(isset($_GET['param']))
+        {
+            $criteria->join='LEFT JOIN AuthAssignment ON user.id = AuthAssignment.userid';
+            $criteria->condition='AuthAssignment.itemname=:role';
+            $criteria->params=array(':role'=>$_GET['param']);
+        }
 		$dataProvider=new CActiveDataProvider('User', array(
-			'criteria'=>array(
-		        'condition'=>'status>'.User::STATUS_BANNED,
-		    ),
-				
+			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->controller->module->user_page_size,
 			),

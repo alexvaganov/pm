@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create Project</h1>
+<h2>Создать проект</h2>
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model,'managers'=>$managers)); ?>

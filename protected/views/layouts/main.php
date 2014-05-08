@@ -7,20 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <?php
-    $assets = Yii::app()->assetManager->publish( Yii::getPathOfAlias('application.assets'));
-    echo CHtml::cssFile($assets.'/css/stylish-portfolio.css');
-    echo CHtml::cssFile($assets.'/bootstrap/css/bootstrap.min.css');
+    $assets = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.assets'));
+    echo CHtml::cssFile($assets.'/plugins/bootstrap/css/bootstrap.min.css');
     echo CHtml::cssFile($assets.'/font-awesome/css/font-awesome.min.css');
-    echo CHtml::scriptFile($assets.'/jquery/jquery-2.1.0.js');
+    echo CHtml::scriptFile($assets.'/plugins/jquery/jquery-2.1.0.js');
+    echo CHtml::cssFile($assets.'/css/style.css');
     ?>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body>
 
-    <div id="container">
-        <?php echo $content; ?>
-    </div><!-- page -->
 
-    <?php echo CHtml::scriptFile($assets. '/bootstrap/js/bootstrap.min.js') ?>
+        <?php echo $content; ?>
+
+
+    <?php
+    echo CHtml::scriptFile($assets. '/plugins/bootstrap/js/bootstrap.min.js');
+    echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/wysihtml5-0.3.0.min.js');
+    echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.js');
+    ?>
 </body>
 </html>

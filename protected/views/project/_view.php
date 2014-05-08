@@ -3,34 +3,50 @@
 /* @var $data Project */
 ?>
 
-<div class="view">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a href="<?php echo CHtml::encode($data->url); ?>"><?php echo CHtml::encode($data->title); ?></a>
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#project<?php echo CHtml::encode($data->id); ?>">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+        </h3>
+    </div>
+    <div id="project<?php echo CHtml::encode($data->id); ?>" class="panel-collapse collapse">
+        <div class="panel-body">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
-	<br />
+            <?php echo nl2br(CHtml::encode($data->goals)); ?>
+            <br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('title')); ?>:</b>
-	<?php echo CHtml::encode($data->title); ?>
-	<br />
+            <div class="project-column">
+                <span class="label label-success"><?php echo CHtml::encode($data->getAttributeLabel('start')); ?>:</span>
+                <?php echo CHtml::encode($data->start); ?>
+            </div>
+            <div class="project-column">
+                <span class="label label-danger"><?php echo CHtml::encode($data->getAttributeLabel('deadline')); ?>:</span>
+                <?php echo CHtml::encode($data->deadline); ?>
+            </div>
+        </div>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('goals')); ?>:</b>
-	<?php echo CHtml::encode($data->goals); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('start')); ?>:</b>
-	<?php echo CHtml::encode($data->start); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('deadline')); ?>:</b>
-	<?php echo CHtml::encode($data->deadline); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('manager')); ?>:</b>
-	<?php echo CHtml::encode($data->manager->username); ?>
-	<br />
-
-    <b><?php echo CHtml::encode($data->getAttributeLabel('author')); ?>:</b>
-    <?php echo CHtml::encode($data->author->username); ?>
-    <br />
-
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><?php echo CHtml::encode($data->getAttributeLabel('title')); ?></th>
+                    <th><?php echo CHtml::encode($data->getAttributeLabel('deadline')); ?></th>
+                    <th><?php echo CHtml::encode($data->getAttributeLabel('responsible')); ?></th>
+                    <th><?php echo CHtml::encode($data->getAttributeLabel('author_id')); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($data->maintasks as $task): ?>
+                <tr>
+                    <td><?php echo CHtml::link($task->title, $task->url)  ?></td>
+                    <td><?php echo $task->deadline ?></td>
+                    <td><?php echo $task->responsible->username ?></td>
+                    <td><?php echo $task->author->username ?></td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
 </div>

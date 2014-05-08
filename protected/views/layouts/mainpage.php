@@ -10,8 +10,8 @@
 
     <?php
     $assets  = Yii::app()->assetManager->publish( Yii::getPathOfAlias('application.assets'));
-    echo CHtml::cssFile($assets. '/css/stylish-portfolio.css');
-    echo CHtml::cssFile($assets. '/dist/css/bootstrap.min.css');
+    echo CHtml::cssFile($assets. '/css/page.css');
+    echo CHtml::cssFile($assets. '/plugins/bootstrap/css/bootstrap.min.css');
     echo CHtml::cssFile($assets . '/font-awesome/css/font-awesome.min.css');
     ?>
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -21,6 +21,6 @@
 
 <?php echo $content ?>
 
-<?php echo CHtml::scriptFile($assets. '/dist/js/bootstrap.min.js') ?>
+<?php echo CHtml::scriptFile($assets. '/plugins/bootstrap/js/bootstrap.min.js') ?>
 </body>
 </html>
