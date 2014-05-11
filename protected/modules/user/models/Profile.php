@@ -120,7 +120,10 @@ class Profile extends UActiveRecord
 	{
 		$labels = array(
 			'user_id' => UserModule::t('User ID'),
-		);
+            'first_name' => UserModule::t('First Name'),
+            'last_name' => UserModule::t('Last Name'),
+
+        );
 		$model=$this->getFields();
 		
 		foreach ($model as $field)

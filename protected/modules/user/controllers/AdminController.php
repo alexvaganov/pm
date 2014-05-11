@@ -89,6 +89,8 @@ class AdminController extends Controller
 				if($model->save()) {
 					$profile->user_id=$model->id;
 					$profile->save();
+                    $authenticatedName = Rights::module()->authenticatedName;
+                    Rights::assign($authenticatedName, $model->id);
 				}
 				$this->redirect(array('view','id'=>$model->id));
 			} else $profile->validate();

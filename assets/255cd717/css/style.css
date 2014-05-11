@@ -2355,3 +2355,6 @@ td.beauty-hover {
 .infoblock p {margin: 10px;}
 
 .glyphicon {line-height: 1.42857;}
+#not_performed, #performed {display: none;}
+#performed {opacity: 0.5;}
+.indent-vertical-10 {margin: 10px 0;}

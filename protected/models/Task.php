@@ -56,6 +56,7 @@ class Task extends CActiveRecord
             'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
             'subtasks'=>array(self::HAS_MANY, 'Task', 'parent_id'),
             'parent'=>array(self::BELONGS_TO, 'Task', 'parent_id'),
+            'affairs'=>array(self::HAS_MANY, 'Affair', 'task_id'),
 		);
 	}
 
@@ -77,6 +78,7 @@ class Task extends CActiveRecord
 			'responsible_id' => 'Ответственный',
 			'author_id' => 'Создатель',
             'subtasks' => 'Подзадачи',
+            'affairs' => 'Дела',
 		);
 	}
 

@@ -2,8 +2,9 @@
 /* @var $this ProjectController */
 
 $this->breadcrumbs=array(
-	'Project',
+	'Проекты',
 );
+$this->pageTitle='Проекты'.' - '.Yii::app()->name;
 ?>
 
 <h1 class="col-lg-5">Проекты</h1>

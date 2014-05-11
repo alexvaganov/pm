@@ -12,8 +12,8 @@ echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/bootstrap-datet
 echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.ru.js');
 ?>
 
-<?php Yii::app()->clientScript->registerScript('calendar',"
-    $(function () {
+<?php Yii::app()->clientScript->registerScript('calendar',
+    "$(function () {
         $('#start, #deadline').datetimepicker({
             language: 'ru'
         });

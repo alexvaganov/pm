@@ -2,7 +2,6 @@
 
 class TaskController extends Controller
 {
-    public $activeItem; //active item in CMenu
 
 	/**
 	 * @return array action filters
@@ -31,9 +30,32 @@ class TaskController extends Controller
         $model=$this->loadModel($id);
         $tasks=$model->getAllTasks(null,$model->id);
         $tree=$model->buildTreeArray($tasks, $model->id);
+
+        $affairModel=new Affair();
+
+        if(isset($_POST['ajax']) && $_POST['ajax']==='affair-form')
+        {
+            echo CActiveForm::validate($affairModel);
+            Yii::app()->end();
+        }
+        if(Yii::app()->request->isAjaxRequest && isset($_POST['Affair']))
+        {
+            $affairModel->attributes=$_POST['Affair'];
+            if($affairModel->validate())
+            {
+                $affairModel->save();
+                echo CJSON::encode(array(
+                    'status'=>'success',
+                    'affair'=>$affairModel->text,
+                ));
+            }
+            Yii::app()->end();
+        }
+
 		$this->render('view',array(
 			'model'=>$model,
             'tree'=>$tree,
+            'affairModel'=>$affairModel,
 		));
 	}
 
@@ -111,7 +133,6 @@ class TaskController extends Controller
 	 */
 	public function actionIndex()
 	{
-        $this->activeItem='list';
 
         $criteria=new CDbCriteria();
 
@@ -121,19 +142,15 @@ class TaskController extends Controller
             {
                 case 'in':
                     $criteria->condition='responsible_id=:user_id';
-                    $this->activeItem='in';
                     break;
                 case 'out':
                     $criteria->condition='author_id=:user_id';
-                    $this->activeItem='out';
                     break;
                 case 'burning':
                     $criteria->scopes='burning';
-                    $this->activeItem='burning';
                     break;
                 case 'deadline':
                     $criteria->scopes='deadline';
-                    $this->activeItem='deadline';
                     break;
             }
             $criteria->params=array(':user_id'=>Yii::app()->user->id);
@@ -164,7 +181,7 @@ class TaskController extends Controller
 		));
 	}
 
-	/**
+    /**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
