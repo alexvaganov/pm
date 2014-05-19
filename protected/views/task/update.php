@@ -3,19 +3,13 @@
 /* @var $model Task */
 
 $this->breadcrumbs=array(
-	'Tasks'=>array('index'),
+	'Задачи'=>array('index'),
 	$model->title=>array('view','id'=>$model->id),
-	'Update',
+	'Редактирование',
 );
 
-$this->menu=array(
-	array('label'=>'List Task', 'url'=>array('index')),
-	array('label'=>'Create Task', 'url'=>array('create')),
-	array('label'=>'View Task', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Task', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Update Task <?php echo $model->id; ?></h1>
+<h1>Редактирование задачи <?php echo $model->id; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model,'projects'=>$projects,'users'=>$users)); ?>

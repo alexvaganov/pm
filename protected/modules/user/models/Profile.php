@@ -183,4 +183,8 @@ class Profile extends UActiveRecord
 			return $this->_model;
 		}
 	}
+
+    public function getFullName(){
+        return implode(' ', array_filter(array($this->first_name, $this->last_name)));
+    }
 }

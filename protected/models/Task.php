@@ -18,7 +18,13 @@
  */
 class Task extends CActiveRecord
 {
-	/**
+    const NOT_ACCEPTED=0;
+    const SENT_FOR_REMAKE=1;
+    const ACCEPTED_FOR_EXECUTIVE=2;
+    const SENT_FOR_REVIEW=3;
+    const COMPLETED=4;
+
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
@@ -34,12 +40,12 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('project_id, parent_id, is_favorite, is_burning, is_expire, responsible_id, author_id', 'numerical', 'integerOnly'=>true),
+			array('project_id, parent_id, is_favorite, is_burning, is_expire, responsible_id, author_id, status', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>255),
 			array('essense, deadline', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, essense, deadline, project_id, parent_id, is_favorite, is_burning, is_expire, responsible_id, author_id', 'safe', 'on'=>'search'),
+			array('id, title, essense, deadline, project_id, parent_id, is_favorite, is_burning, is_expire, responsible_id, author_id, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -79,6 +85,7 @@ class Task extends CActiveRecord
 			'author_id' => 'Создатель',
             'subtasks' => 'Подзадачи',
             'affairs' => 'Дела',
+            'status'=> 'Статус'
 		);
 	}
 
@@ -199,8 +206,8 @@ class Task extends CActiveRecord
                 'condition'=>'is_burning=1',
             ),
             'deadline'=>array(
-                'condition'=>'deadline<=DATE_ADD(NOW(), INTERVAL 1 DAY)',
-            )
+                'condition'=>'deadline<=DATE_ADD(NOW(), INTERVAL 1 DAY) AND deadline>=NOW()',
+            ),
         );
     }
 
@@ -218,5 +225,22 @@ class Task extends CActiveRecord
         }
         else
             return false;
+    }
+
+    /**
+     * Return status alias
+     * @param $code
+     * @return mixed
+     */
+    public static function statusAlias($code)
+    {
+        $_items=array(
+            self::NOT_ACCEPTED=>'Ожидает подтверждения исполнителем',
+            self::SENT_FOR_REMAKE=>'Отправлена на доработку',
+            self::SENT_FOR_REVIEW=>'Отправлена на проверку',
+            self::ACCEPTED_FOR_EXECUTIVE=>'Принята на исполнение',
+            self::COMPLETED=>'Завершена'
+        );
+        return $_items[$code];
     }
 }

@@ -31,4 +31,11 @@ class Controller extends RController
             $this->layout = '//layouts/private';
     }
 
+    public function filters()
+    {
+        return array(
+            'rights'
+        );
+    }
+
 }

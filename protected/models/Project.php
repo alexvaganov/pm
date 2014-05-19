@@ -90,7 +90,8 @@ class Project extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('id',$this->id);
+        $criteria->compare('title',$this->title,true);
 		$criteria->compare('goals',$this->goals,true);
 
 		return new CActiveDataProvider($this, array(

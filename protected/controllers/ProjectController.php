@@ -27,7 +27,7 @@ class ProjectController extends Controller
      * Initialise controller view layout
      */
     public function init() {
-        $this->layout = '//layouts/taskcolumn';
+        $this->layout = '//layouts/column2-task';
     }
 
     public function actionIndex()
@@ -137,12 +137,14 @@ class ProjectController extends Controller
      */
     public function actionAdmin()
     {
+        $users=User::model()->findAll();
         $model=new Project('search');
         $model->unsetAttributes();
         if(isset($_GET['Project']))
             $model->attributes=$_GET['Project'];
         $this->render('admin',array(
             'model'=>$model,
+            'users'=>$users,
         ));
     }
 

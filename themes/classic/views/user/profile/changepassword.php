@@ -12,6 +12,7 @@ $this->menu=array(
     array('label'=>UserModule::t('Edit'), 'url'=>array('edit')),
     array('label'=>UserModule::t('Logout'), 'url'=>array('/user/logout')),
 );
+$this->layout='//layouts/column2-user';
 ?>
 
 <h1><?php echo UserModule::t("Change password"); ?></h1>
@@ -22,36 +23,44 @@ $this->menu=array(
 	'enableAjaxValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
+        'inputContainer'=>'.form-group',
+        'errorCssClass'=>'has-error',
 	),
+    'htmlOptions'=>array('class'=>'form-horizontal'),
 )); ?>
 
 	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
 	<?php echo $form->errorSummary($model); ?>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'oldPassword'); ?>
-	<?php echo $form->passwordField($model,'oldPassword'); ?>s
-	<?php echo $form->error($model,'oldPassword'); ?>
+
+    <div class="form-group">
+	<?php echo $form->labelEx($model,'oldPassword',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-5">
+        <?php echo $form->passwordField($model,'oldPassword',array('class'=>'form-control')); ?>
+        <?php echo $form->error($model,'oldPassword'); ?>
+        </div>
 	</div>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'password'); ?>
-	<?php echo $form->passwordField($model,'password'); ?>
-	<?php echo $form->error($model,'password'); ?>
-	<p class="hint">
-	<?php echo UserModule::t("Minimal password length 4 symbols."); ?>
-	</p>
+
+    <div class="form-group">
+	<?php echo $form->labelEx($model,'password',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-5">
+        <?php echo $form->passwordField($model,'password',array('class'=>'form-control')); ?>
+        <?php echo $form->error($model,'password'); ?>
+        </div>
 	</div>
-	
-	<div class="row">
-	<?php echo $form->labelEx($model,'verifyPassword'); ?>
-	<?php echo $form->passwordField($model,'verifyPassword'); ?>
-	<?php echo $form->error($model,'verifyPassword'); ?>
+
+    <div class="form-group">
+	<?php echo $form->labelEx($model,'verifyPassword',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-5">
+        <?php echo $form->passwordField($model,'verifyPassword',array('class'=>'form-control')); ?>
+        <?php echo $form->error($model,'verifyPassword'); ?>
+        </div>
 	</div>
-	
-	
-	<div class="row submit">
-	<?php echo CHtml::submitButton(UserModule::t("Save")); ?>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+	    <?php echo CHtml::submitButton(UserModule::t("Save"),array('class'=>'btn btn-default')); ?>
+        </div>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -3,7 +3,7 @@
 /* @var $model Task */
 
 $this->breadcrumbs=array(
-	'Tasks'=>array('index'),
+	'Задачи'=>array('index'),
 	$model->title,
 );
 
@@ -12,131 +12,161 @@ $this->layout='//layouts/private';
 
 <script type="text/javascript">
         $(function(){
-            if($('#not_performed').find('.affair').text()){
-                $('#not_performed').show();
-            } else if ($('#performed').find('.affair').text()){
-                $('#performed').show();
+            function updateAffairsBlocks() {
+                if($('#performed').find('.affair').text()){
+                    $('#performed').show();
+                } else {
+                    $('#performed').hide();
+                }
             }
-            $('#affair').on('blur',function(){
-                $('#add_affair').show();
-                $(this).hide();
+            updateAffairsBlocks();
+            <!--Lost focus of adding affair field-->
+            $('#affairField').on('blur',function(){
+                $('#addAffair').show();
+                $(this).val('').parent().hide();
             });
+            <!--Add new affair-->
             $('#affair-form').on('submit',function(){
                 $.ajax({
                     "type": "POST",
                     "dataType": "JSON",
-                    "url": "<?php echo CHtml::normalizeUrl(array("task/view/".$model->id)); ?>",
+                    "url": "<?php echo CHtml::normalizeUrl(array("affair/create")); ?>",
                     "data": $("#affair-form").serialize(),
                     "success": function(data){
-                            var affair=$('#affair-tpl').clone();
-
-                            $('#not_performed').append(affair);
-                        }
+                        $('#affairField').blur().val('');
+                        var affair=$('.affair.hidden').clone();
+                        $(".text", affair).text(data.affair);
+                        $(".remove", affair).attr('id',data.id);
+                        $(affair).attr('class','affair');
+                        $('#not_performed').append(affair);
+                    }
                 });
             return false;
             });
-            $('#add_affair').on('click',function(){
-                addAffairField(this);
+            <!--Delete affair from task-->
+            $('body').on('click', '.remove', function(){
+                var button=this;
+                $.ajax({
+                    "type": "POST",
+                    "url": "<?php echo CHtml::normalizeUrl(array("affair/delete")); ?>"+"/"+$(button).attr('id'),
+                    "success": function(){
+                        $(button).parent('.affair').remove();
+                        updateAffairsBlocks();
+                    }
+                });
+            });
+            <!--Show affair adding field when adding link was clicked-->
+            $('#addAffair').on('click',function(){
+                $('.input-group').show().find('#affairField').focus();
+                $(this).hide();
                 return false;
             });
-    });
-    function addAffairField(link) {
-        $('#affair').show();
-        $('#affair').focus();
-        $(link).hide();
-    }
+            <!--Change affair status-->
+            $('body').on('click', 'input[name=status]', function(){
+                var button=$(this).parent().find('.remove');
+                var status;
+                var container;
+                if(this.checked) {
+                    status='<?php echo Affair::PERFORMED; ?>';
+                    container='#performed';
+                } else {
+                    status='<?php echo Affair::NOT_PERFORMED; ?>';
+                    container='#not_performed';
+                }
+                $.ajax({
+                    "type": "POST",
+                    "data": "status="+status,
+                    "url": "<?php echo CHtml::normalizeUrl(array("affair/changeStatus")); ?>"+"/"+$(button).attr('id'),
+                    "success": function(){
+                        $(button).parent('.affair').appendTo(container);
+                        updateAffairsBlocks();
+                    }
+                });
+            });
+        });
 </script>
 
 <div id='sidebar-left' class="col-md-2">
-    <div class="infoblock">
-        <span class="label label-success"><?php echo $model->getAttributeLabel('project_id') ?></span>
-        <p><?php echo $model->project->title ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-danger"><?php echo $model->getAttributeLabel('deadline') ?></span>
-        <p><?php echo $model->deadline ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-info"><?php echo $model->getAttributeLabel('responsible_id') ?></span>
-        <p><?php echo $model->responsible->username ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-info"><?php echo $model->getAttributeLabel('author_id') ?></span>
-        <p><?php echo $model->author->username ?></p>
-    </div>
+    <?php $this->renderPartial('_left-infoblock',array('model'=>$model)); ?>
 </div>
 
 <div id="content" class="col-md-10">
+
+    <div class="row">
+        <div class="col-xs-12" id="breadcrumb">
+            <?php if(isset($this->breadcrumbs)):
+            $this->widget('zii.widgets.CBreadcrumbs', array(
+                'links'=>$this->breadcrumbs,
+                'homeLink'=>false,
+                'tagName'=>'ul',
+                'separator'=>'',
+                'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                'inactiveLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                'htmlOptions'=>array ('class'=>'breadcrumb')
+            )); ?><!-- breadcrumbs -->
+            <?php endif; ?>
+        </div>
+    </div>
+
     <div class="panel panel-default">
-        <div class="panel-heading"><strong><?php echo $model->title; ?></strong><?php echo CHtml::link('Редактировать',array('task/update','id'=>$model->id),array('class'=>'btn btn-primary btn-xs pull-right')) ?></div>
+        <div class="panel-heading"><strong><?php echo $model->title; ?></strong></div>
         <div class="panel-body">
             <div class="well">
                 <p><?php echo nl2br($model->essense); ?></p>
             </div>
 
+            <h3>Дела</h3>
+            <!--Template for new affairs-->
+            <div class="affair hidden">
+                <?php echo CHtml::checkBox('status'); ?>
+                <span class="text"></span>
+                <?php echo CHtml::button('X',array('class'=>'btn btn-default btn-xs remove')); ?>
+            </div>
 
-            <?php if($model->affairs): ?>
-                <h3>Дела</h3>
-                <div id="affair-tpl">
-                    <?php echo CHtml::checkBox('status'); ?>
-                    <span class="text"></span>
-                    <?php echo CHtml::button('X',array('class'=>'btn btn-default')); ?>
-                </div>
 
                 <div id="not_performed" class="affairs">
-                    <?php foreach($model->affairs as $affair): ?>
-                        <?php if($affair->status==Affair::NOT_PERFORMED): ?>
-                            <div class="affair">
-                                <?php echo CHtml::checkBox('status'); ?>
-                                <?php echo $affair->text; ?>
-                                <?php echo CHtml::ajaxButton('X',CHtml::normalizeUrl(array("affair/delete/".$affair->id)),
-                                    array(
-                                        'dataType'=>'json',
-                                        'type'=>'post',
-                                        'success'=>'function() {
-                                            alert("OK");
-                                         }',
-                                    ),
-                                    array('class'=>'btn btn-default btn-xs')); ?>
-                            </div>
-                        <?php endif ?>
-                    <?php endforeach ?>
+                    <?php $this->renderPartial('_affairs', array(
+                        'status'=>Affair::NOT_PERFORMED,
+                        'model'=>$model)); ?>
                 </div>
-            <?php endif ?>
 
             <div class="row">
                 <div class="indent-vertical-10 col-md-3">
                     <?php $form = $this->beginWidget('CActiveForm',array(
                         'id'=>'affair-form',
-                        'action'=>CHtml::normalizeUrl(array("task/view/".$model->id)))
+                        'action'=>CHtml::normalizeUrl(array("affair/create")))
                     ); ?>
-                    <?php echo $form->textField($affairModel,'text',array('id'=>'affair','class'=>'form-control','style'=>'display: none')); ?>
-                    <?php echo $form->hiddenField($affairModel,'task_id',array('value'=>$model->id)); ?>
+                    <div class="input-group" style="display: none">
+                        <?php echo $form->textField($affairModel,'text',array('id'=>'affairField','class'=>'form-control')); ?>
+                        <?php echo $form->error($affairModel,'text'); ?>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i></span>
+                        <?php echo $form->hiddenField($affairModel,'task_id',array('value'=>$model->id)); ?>
+                    </div>
                     <?php $this->endWidget(); ?>
-                    <?php echo CHtml::link('+Добавить дело', '#', array('id'=>'add_affair')); ?>
+                    <?php echo CHtml::link('+Добавить дело', '#', array('id'=>'addAffair')); ?>
                 </div>
             </div>
 
-            <?php if($model->affairs): ?>
-                <div id="performed" class="affairs">
-                    <h5>Завершенные</h5>
-                    <?php foreach($model->affairs as $affair): ?>
-                        <?php if($affair->status==Affair::PERFORMED): ?>
-                            <div class="affair">
-                                <?php echo CHtml::checkBox('status'); ?>
-                                <?php echo $affair->text; ?>
-                                <?php echo CHtml::button('X',array('class'=>'btn btn-default')); ?>
-                            </div>
-                        <?php endif ?>
-                    <?php endforeach ?>
-                </div>
-            <?php endif ?>
+            <div id="performed" class="affairs">
+                <h5>Завершенные</h5>
+                <?php $this->renderPartial('_affairs', array(
+                    'status'=>Affair::PERFORMED,
+                    'model'=>$model)); ?>
+            </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading"><strong><?php echo $model->getAttributeLabel('subtasks') ?></strong></div>
                 <div class="panel-body">
-                    <?php $this->widget('CTreeView', array('data' => $tree)) ?>
+                    <?php if(!empty($tree))
+                        $this->widget('CTreeView', array('data' => $tree)) ;
+                    else
+                        echo '<i>Нет подзадач</i>';
+                    ?>
                 </div>
+            </div>
+
+            <div class="text-center">
+            <?php $this->renderPartial('_bottom-menu',array('model'=>$model)); ?>
             </div>
         </div>
     </div>

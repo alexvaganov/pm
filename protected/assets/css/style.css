@@ -23,7 +23,7 @@ h1, .h1, h2, .h2, h3, .h3 {
     color: #fff;
     display: block;
     font-size: 20px;
-    line-height: 53px;
+    line-height: 50px;
     background: url(../plugins/devoops/img/logo.png) right 42px no-repeat;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
@@ -84,7 +84,6 @@ a.show-sidebar:hover {
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
     transition: 0.2s;
-    padding-top: 15px;
 }
 .full-content {
     overflow: hidden;
@@ -2351,10 +2350,25 @@ td.beauty-hover {
 
 .grey {background-color: #F5F5F5;}
 .panel-part {display: block; margin-bottom: 8px;}
-.infoblock {margin-top: 15px;}
-.infoblock p {margin: 10px;}
+.infoblock {margin-top: 20px;}
+.infoblock p {margin: 15px 15px 0px 15px; color: #f4f4f4;}
 
 .glyphicon {line-height: 1.42857;}
-#not_performed, #performed {display: none;}
-#performed {opacity: 0.5;}
-.indent-vertical-10 {margin: 10px 0;}
+#performed {display: none; opacity: 0.5;}
+.indent-vertical-10 {margin: 5px 0 10px;}
+.affairs {margin-top: 10px;}
+.affair .text {font-size: 16px; }
+.filters {overflow: auto;}
+.has-error {color: #d9534f}
+.hint {font-size: 10px;}
+
+.profile
+{
+    min-height: 355px;
+}
+
+
+
+
+
+

@@ -8,6 +8,7 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $roles=User::model()->getRoles();
 		$dataProvider=new CActiveDataProvider('User', array(
 			'criteria'=>array(
 		        'condition'=>'status>'.User::STATUS_BANNED,
@@ -19,6 +20,7 @@ class DefaultController extends Controller
 
 		$this->render('/user/index',array(
 			'dataProvider'=>$dataProvider,
+            'roles'=>$roles
 		));
 	}
 

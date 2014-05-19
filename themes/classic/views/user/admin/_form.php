@@ -21,7 +21,7 @@
     <?php endif ?>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model,'username',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($model,'username',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
             <?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20,'class'=>'form-control')); ?>
             <?php echo $form->error($model,'username'); ?>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model,'password',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($model,'password',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
             <?php echo $form->passwordField($model,'password',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
             <?php echo $form->error($model,'password'); ?>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model,'email',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($model,'email',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
             <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
             <?php echo $form->error($model,'email'); ?>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model,'superuser',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($model,'superuser',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-2">
             <?php echo $form->dropDownList($model,'superuser',User::itemAlias('AdminStatus'),array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'superuser'); ?>
@@ -53,7 +53,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($model,'status',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($model,'status',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-2">
             <?php echo $form->dropDownList($model,'status',User::itemAlias('UserStatus'),array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'status'); ?>
@@ -61,7 +61,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($profile,'first_name',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($profile,'first_name',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
             <?php echo $form->textField($profile,'first_name',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
             <?php echo $form->error($profile,'first_name'); ?>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="form-group">
-        <?php echo $form->labelEx($profile,'last_name',array('class'=>'col-sm-2 control-label')); ?>
+        <?php echo $form->labelEx($profile,'last_name',array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
             <?php echo $form->textField($profile,'last_name',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
             <?php echo $form->error($profile,'last_name'); ?>
@@ -103,7 +103,7 @@
 		}
 ?>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-3 col-sm-10">
 		    <?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save'),array('class'=>'btn btn-default')); ?>
 	    </div>
     </div>

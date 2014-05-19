@@ -3,32 +3,34 @@
 /* @var $model Project */
 
 $this->breadcrumbs=array(
-	'Projects'=>array('index'),
+	'Проекты'=>array('index'),
 	$model->title,
 );
 $this->layout='//layouts/private';
 ?>
 
 <div id='sidebar-left' class="col-md-2">
-    <div class="infoblock">
-        <span class="label label-success"><?php echo $model->getAttributeLabel('start') ?></span>
-        <p><?php echo $model->start ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-danger"><?php echo $model->getAttributeLabel('deadline') ?></span>
-        <p><?php echo $model->deadline ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-info"><?php echo $model->getAttributeLabel('manager_id') ?></span>
-        <p><?php echo $model->manager->username ?></p>
-    </div>
-    <div class="infoblock">
-        <span class="label label-info"><?php echo $model->getAttributeLabel('author_id') ?></span>
-        <p><?php echo $model->author->username ?></p>
-    </div>
+    <?php $this->renderPartial('_left-infoblock',array('model'=>$model)); ?>
 </div>
 
 <div id="content" class="col-md-10">
+
+    <div class="row">
+        <div class="col-xs-12" id="breadcrumb">
+            <?php if(isset($this->breadcrumbs)):
+            $this->widget('zii.widgets.CBreadcrumbs', array(
+                'links'=>$this->breadcrumbs,
+                'homeLink'=>false,
+                'tagName'=>'ul',
+                'separator'=>'',
+                'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                'inactiveLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                'htmlOptions'=>array ('class'=>'breadcrumb')
+            )); ?><!-- breadcrumbs -->
+            <?php endif; ?>
+        </div>
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading"><strong><?php echo $model->title; ?></strong><?php echo CHtml::link('Редактировать',array('project/update','id'=>$model->id),array('class'=>'btn btn-primary btn-xs pull-right')) ?></div>
         <div class="panel-body">

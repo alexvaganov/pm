@@ -6,7 +6,6 @@ $this->breadcrumbs=array(
 	(UserModule::t('Update')),
 );
 $this->menu=array(
-    array('label'=>'<span class="glyphicon glyphicon-user"></span> Администрирование', 'url'=>array('admin')),
     array('label'=>'<span class="glyphicon glyphicon-star-empty"></span> Создать пользователя', 'url'=>array('admin/create')),
     array('label'=>'<span class="glyphicon glyphicon-star"></span> Список пользователей', 'url'=>array('user/index')),
     array('label'=>'<span class="glyphicon glyphicon-cog"></span> Настройка полей', 'url'=>array('profileField/admin')),

@@ -18,7 +18,7 @@ class TaskController extends Controller
      * Initialise controller view layout
      */
     public function init() {
-        $this->layout = '//layouts/taskcolumn';
+        $this->layout = '//layouts/column2-task';
     }
 
 	/**
@@ -32,25 +32,6 @@ class TaskController extends Controller
         $tree=$model->buildTreeArray($tasks, $model->id);
 
         $affairModel=new Affair();
-
-        if(isset($_POST['ajax']) && $_POST['ajax']==='affair-form')
-        {
-            echo CActiveForm::validate($affairModel);
-            Yii::app()->end();
-        }
-        if(Yii::app()->request->isAjaxRequest && isset($_POST['Affair']))
-        {
-            $affairModel->attributes=$_POST['Affair'];
-            if($affairModel->validate())
-            {
-                $affairModel->save();
-                echo CJSON::encode(array(
-                    'status'=>'success',
-                    'affair'=>$affairModel->text,
-                ));
-            }
-            Yii::app()->end();
-        }
 
 		$this->render('view',array(
 			'model'=>$model,
@@ -75,6 +56,8 @@ class TaskController extends Controller
 		if(isset($_POST['Task']))
 		{
 			$model->attributes=$_POST['Task'];
+            if(isset($_GET['id']))
+                $model->parent_id=$_GET['id'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -82,7 +65,7 @@ class TaskController extends Controller
 		$this->render('create',array(
 			'model'=>$model,
             'projects'=>$projects,
-            'users'=>$users,
+            'users'=>$users
 		));
 	}
 
@@ -124,7 +107,7 @@ class TaskController extends Controller
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
+		if(!Yii::app()->request->isAjaxRequest)
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
@@ -133,7 +116,6 @@ class TaskController extends Controller
 	 */
 	public function actionIndex()
 	{
-
         $criteria=new CDbCriteria();
 
         if(isset($_GET['param']))
@@ -141,26 +123,48 @@ class TaskController extends Controller
             switch($_GET['param'])
             {
                 case 'in':
+                    $this->pageTitle='Входящие задачи';
                     $criteria->condition='responsible_id=:user_id';
                     break;
                 case 'out':
+                    $this->pageTitle='Исходящие задачи';
                     $criteria->condition='author_id=:user_id';
                     break;
                 case 'burning':
+                    $this->pageTitle='Срочные задачи';
                     $criteria->scopes='burning';
                     break;
                 case 'deadline':
+                    $this->pageTitle='Задачи с истекающим сроком';
                     $criteria->scopes='deadline';
                     break;
             }
             $criteria->params=array(':user_id'=>Yii::app()->user->id);
         }
         else
+        {
+            $this->pageTitle='Мои задачи';
             $criteria->scopes='own';
+        }
 
-		$dataProvider=new CActiveDataProvider('Task',array(
+        if(isset($_GET['status']))
+        {
+            $criteria->addCondition('status=:status_id');
+            $criteria->params=array(':status_id'=>$_GET['status']);
+        }
+
+        $dataProvider=new CActiveDataProvider('Task',array(
             'criteria'=>$criteria,
         ));
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_index-part',array(
+                'dataProvider'=>$dataProvider,
+            ));
+            Yii::app()->end();
+        }
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -180,6 +184,17 @@ class TaskController extends Controller
 			'model'=>$model,
 		));
 	}
+
+    public function actionChangeStatus($id)
+    {
+        $model=$this->loadModel($id);
+        $model->status=$_POST['status'];
+        $model->save();
+        if(Yii::app()->request->isAjaxRequest)
+            Yii::app()->end();
+        else
+            $this->redirect(Yii::app()->user->returnUrl);
+    }
 
     /**
 	 * Returns the data model based on the primary key given in the GET variable.

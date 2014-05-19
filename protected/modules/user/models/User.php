@@ -80,6 +80,7 @@ class User extends CActiveRecord
         $relations = Yii::app()->getModule('user')->relations;
         if (!isset($relations['profile']))
             $relations['profile'] = array(self::HAS_ONE, 'Profile', 'user_id');
+        $relations['tasks'] = array(self::HAS_MANY, 'Task', 'responsible_id');
         return $relations;
 	}
 
@@ -195,5 +196,15 @@ class User extends CActiveRecord
 
     public function setLastvisit($value) {
         $this->lastvisit_at=date('Y-m-d H:i:s',$value);
+    }
+
+    public function getRoles()
+    {
+        $roles=Yii::app()->db->createCommand()
+            ->select('name, description')
+            ->from('AuthItem')
+            ->where('type=2')
+            ->queryAll();
+        return $roles;
     }
 }

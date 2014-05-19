@@ -40,6 +40,37 @@ class AffairController extends Controller
 	}
 	*/
 
+    public function actionCreate()
+    {
+        $affairModel=new Affair();
+        if(isset($_POST['ajax']) && $_POST['ajax']==='affair-form')
+        {
+            echo CActiveForm::validate($affairModel);
+            Yii::app()->end();
+        }
+
+        if(isset($_POST['Affair']))
+            $affairModel->attributes=$_POST['Affair'];
+
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            if($affairModel->save())
+            {
+                echo CJSON::encode(array(
+                    'status'=>'success',
+                    'affair'=>$affairModel->text,
+                    'id'=>$affairModel->id
+                ));
+                Yii::app()->end();
+            }
+        }
+        else
+        {
+            if($affairModel->save())
+                $this->redirect(Yii::app()->user->returnUrl);
+        }
+    }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -66,6 +97,20 @@ class AffairController extends Controller
             if(!Yii::app()->request->isAjaxRequest)
                 $this->redirect(Yii::app()->user->returnUrl);
             else Yii::app()->end();
+        }
+        else
+            throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+    }
+
+    public function actionChangeStatus($id)
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            // we only allow deletion via POST request
+            $model=$this->loadModel($id);
+            $model->status=$_POST['status'];
+            if($model->save())
+                Yii::app()->end();
         }
         else
             throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');

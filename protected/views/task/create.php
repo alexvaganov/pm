@@ -3,12 +3,15 @@
 /* @var $model Task */
 
 $this->breadcrumbs=array(
-	'Tasks'=>array('index'),
-	'Create',
+	'Задачи'=>array('index'),
+	'Постановка',
 );
 
 ?>
 
 <h1>Постановка задачи</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model,'projects'=>$projects,'users'=>$users)); ?>
+<?php $this->renderPartial('_form', array(
+    'model'=>$model,
+    'projects'=>$projects,
+    'users'=>$users)); ?>

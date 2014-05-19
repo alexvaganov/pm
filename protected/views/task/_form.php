@@ -81,7 +81,7 @@ echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-date
         </div>
     </div>
 
-    <?php if($model->isNewRecord): ?>
+    <?php if($model->isNewRecord && !Yii::app()->request->getParam('id')): ?>
         <div class="form-group">
             <?php echo $form->labelEx($model,'project_id',array('class'=>'col-sm-2 control-label')); ?>
             <div class="col-sm-4">

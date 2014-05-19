@@ -5,48 +5,64 @@
     'method'=>'get',
 )); ?>
 
-    <div class="row">
-        <?php echo $form->label($model,'id'); ?>
-        <?php echo $form->textField($model,'id'); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'id',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'id',array('class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'username'); ?>
-        <?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20)); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'username',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20,'class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'email'); ?>
-        <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128)); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'email',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'activkey'); ?>
-        <?php echo $form->textField($model,'activkey',array('size'=>60,'maxlength'=>128)); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'activkey',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'activkey',array('size'=>60,'maxlength'=>128,'class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'create_at'); ?>
-        <?php echo $form->textField($model,'create_at'); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'create_at',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'create_at',array('class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'lastvisit_at'); ?>
-        <?php echo $form->textField($model,'lastvisit_at'); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'lastvisit_at',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'lastvisit_at',array('class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'superuser'); ?>
-        <?php echo $form->dropDownList($model,'superuser',$model->itemAlias('AdminStatus')); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'superuser',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->dropDownList($model,'superuser',$model->itemAlias('AdminStatus'),array('class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row">
-        <?php echo $form->label($model,'status'); ?>
-        <?php echo $form->dropDownList($model,'status',$model->itemAlias('UserStatus')); ?>
+    <div class="form-group">
+        <?php echo $form->label($model,'status',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-4">
+            <?php echo $form->dropDownList($model,'status',$model->itemAlias('UserStatus'),array('class'=>'form-control')); ?>
+        </div>
     </div>
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton(UserModule::t('Search')); ?>
+    <div class="form-group">
+        <?php echo CHtml::submitButton(UserModule::t('Search'),array('class'=>'btn btn-default')); ?>
     </div>
 
 <?php $this->endWidget(); ?>

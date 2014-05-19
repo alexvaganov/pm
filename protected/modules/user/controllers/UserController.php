@@ -32,7 +32,7 @@ class UserController extends Controller
 				'users'=>array('*'),
 			),
 		);
-	}	
+	}
 
 	/**
 	 * Displays a particular model.
@@ -50,13 +50,40 @@ class UserController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $roles=User::model()->getRoles();
+
         $criteria=new CDbCriteria();
-        if(isset($_GET['param']))
+
+        if(isset($_GET['role']))
         {
             $criteria->join='LEFT JOIN AuthAssignment ON user.id = AuthAssignment.userid';
             $criteria->condition='AuthAssignment.itemname=:role';
-            $criteria->params=array(':role'=>$_GET['param']);
+            $criteria->params=array(':role'=>$_GET['role']);
         }
+        if(isset($_GET['status']))
+        {
+            if($_GET['status']=='free')
+            {
+                $criteria->with=array(
+                    'tasks'=>array(
+                        'select'=>false,
+                        'joinType'=>'LEFT OUTER JOIN ',
+                        'condition'=>'tasks.id IS NULL'
+                    )
+                );
+            }
+            elseif($_GET['status']=='busy')
+            {
+                $criteria->with=array(
+                    'tasks'=>array(
+                        'select'=>false,
+                        'joinType'=>'INNER JOIN'
+                    )
+                );
+            }
+            $criteria->together=true;
+        }
+
 		$dataProvider=new CActiveDataProvider('User', array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
@@ -64,8 +91,17 @@ class UserController extends Controller
 			),
 		));
 
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $this->renderPartial('_index-part',array(
+                'dataProvider'=>$dataProvider,
+            ));
+            Yii::app()->end();
+        }
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+            'roles'=>$roles,
 		));
 	}
 

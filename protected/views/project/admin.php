@@ -3,13 +3,8 @@
 /* @var $model Project */
 
 $this->breadcrumbs=array(
-	'Projects'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Project', 'url'=>array('index')),
-	array('label'=>'Create Project', 'url'=>array('create')),
+	'Проекты'=>array('index'),
+	'Администрирование',
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -29,10 +24,11 @@ $('.search-form form').submit(function(){
 <h1>Управление проектами</h1>
 
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Расширенный поиск','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
+    'users'=>$users,
 )); ?>
 </div><!-- search-form -->
 
@@ -49,12 +45,12 @@ $('.search-form form').submit(function(){
 	    array(
             'name'=>'manager_id',
             'type'=>'raw',
-            'value'=>'$data->manager->username'
+            'value'=>'$data->manager->profile->fullname'
         ),
         array(
             'name'=>'author_id',
             'type'=>'raw',
-            'value'=>'$data->author->username',
+            'value'=>'$data->author->profile->fullname',
         ),
 		array(
 			'class'=>'CButtonColumn',
