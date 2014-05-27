@@ -16,7 +16,7 @@
                     'tagName'=>'ul',
                     'separator'=>'',
                     'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
-                    'inactiveLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                    'inactiveLinkTemplate'=>'<li>{label}</li>',
                     'htmlOptions'=>array ('class'=>'breadcrumb')
                 )); ?><!-- breadcrumbs -->
                 <?php endif; ?>
@@ -24,7 +24,5 @@
         </div>
         <?php echo $content; ?>
     </div>
-
-
 
 <?php $this->endContent(); ?>

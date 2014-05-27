@@ -47,6 +47,10 @@ return array(
 
 	// application components
 	'components'=>array(
+        'errorHandler'=>array(
+            // use 'site/error' action to display errors
+            'errorAction'=>'site/error',
+        ),
         'clientScript'=>array(
             'scriptMap'=>array(
                 'jquery.js'=>false,
@@ -93,10 +97,7 @@ return array(
             'enableParamLogging' => true,
 		),
 
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
+
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -105,13 +106,13 @@ return array(
 					'levels'=>'error, warning',
 
 				),
-                array(
+                /*array(
                     // направляем результаты профайлинга в ProfileLogRoute (отображается
                     // внизу страницы)
                     'class'=>'CProfileLogRoute',
                     'levels'=>'profile',
                     'enabled'=>true,
-                ),
+                ),*/
 
 				// uncomment the following to show log messages on web pages
 				/*

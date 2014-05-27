@@ -7,12 +7,7 @@
 <?php
 $assets = Yii::app()->assetManager->publish( Yii::getPathOfAlias('application.assets'));
 echo CHtml::cssFile($assets.'/plugins/bootstrap/datepicker/css/bootstrap-datetimepicker.min.css');
-echo CHtml::cssFile($assets.'/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.css');
-echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/moment.min.js');
-echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.min.js');
-echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.ru.js');
-
-
+echo CHtml::cssFile($assets. '/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.css');
 ?>
 
 <?php Yii::app()->clientScript->registerScript('calendar',"
@@ -115,6 +110,14 @@ echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-date
         </div>
     </div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<?php
+echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/moment.min.js');
+echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.min.js');
+echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.ru.js');
+echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/wysihtml5-0.3.0.min.js');
+echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.js');
+?>

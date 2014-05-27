@@ -25,6 +25,7 @@ class Controller extends RController
      * Substitutes the layout by the state of user
      */
     public function init() {
+        parent::init();
         if (Yii::app()->user->isGuest)
             $this->layout = '//layouts/public';
         else

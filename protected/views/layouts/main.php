@@ -23,8 +23,6 @@
 
     <?php
     echo CHtml::scriptFile($assets. '/plugins/bootstrap/js/bootstrap.min.js');
-    echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/wysihtml5-0.3.0.min.js');
-    echo CHtml::scriptFile($assets. '/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.js');
     ?>
 </body>
 </html>

@@ -30,7 +30,11 @@ $this->layout='//layouts/column2-user';
 )); ?>
 
 	<p class="note"><?php echo UserModule::t('Fields with <span class="required">*</span> are required.'); ?></p>
-	<?php echo $form->errorSummary($model); ?>
+    <?php if($model->hasErrors()): ?>
+        <div class="alert alert-danger">
+            <?php echo $form->errorSummary($model); ?>
+        </div>
+    <?php endif ?>
 
     <div class="form-group">
 	<?php echo $form->labelEx($model,'oldPassword',array('class'=>'col-sm-2 control-label')); ?>

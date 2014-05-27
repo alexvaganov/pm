@@ -2,7 +2,7 @@
 
 ?>
 <div class="btn-group">
-    <?php echo CHtml::link('Редактировать',array('task/update/','id'=>$model->id),array('class'=>'btn btn-primary btn-sm')); ?>
+    <?php echo CHtml::link('Редактировать',array('task/update/','id'=>$model->id),array('class'=>'btn btn-primary btn-sm', 'visible'=>Yii::app()->user->checkAccess('updateOwnTask'))); ?>
     <?php if($model->responsible_id==Yii::app()->user->id)
         echo CHtml::ajaxButton('Принять к исполнению',array('task/changeStatus/','id'=>$model->id),
             array(
@@ -75,6 +75,6 @@
             ));
     }
     ?>
-    <?php echo CHtml::link('Добавить подзадачу',array('task/create/','id'=>$model->id),array('class'=>'btn btn-primary btn-sm')); ?>
+    <?php echo CHtml::link('Добавить подзадачу',array('task/create/','id'=>$model->id),array('class'=>'btn btn-primary btn-sm', 'visible'=>Yii::app()->user->checkAccess('createTask'))); ?>
 
 </div>

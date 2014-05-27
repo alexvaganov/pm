@@ -6,6 +6,7 @@ $this->breadcrumbs=array(
 	'Задачи'=>array('index'),
 	$model->title,
 );
+$this->pageTitle=$model->title.' - '.Yii::app()->name;
 
 $this->layout='//layouts/private';
 ?>

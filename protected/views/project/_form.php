@@ -7,9 +7,7 @@
 <?php
 $assets = Yii::app()->assetManager->publish( Yii::getPathOfAlias('application.assets'));
 echo CHtml::cssFile($assets.'/plugins/bootstrap/datepicker/css/bootstrap-datetimepicker.min.css');
-echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/moment.min.js');
-echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.min.js');
-echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.ru.js');
+echo CHtml::cssFile($assets. '/plugins/bootstrap/wysihtml/bootstrap-wysihtml5.css');
 ?>
 
 <?php Yii::app()->clientScript->registerScript('calendar',
@@ -89,7 +87,7 @@ echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-date
     <div class="form-group">
 		<?php echo $form->labelEx($model,'manager_id',array('class'=>'col-sm-2 control-label')); ?>
         <div class="col-sm-4">
-            <?php echo $form->dropDownList($model,'manager_id',CHtml::listData($managers,'id','username'),array('class'=>'form-control')); ?>
+            <?php echo $form->dropDownList($model,'manager_id',CHtml::listData($managers,'id','profile.fullname'),array('class'=>'form-control')); ?>
             <?php echo $form->error($model,'manager_id'); ?>
         </div>
 	</div>
@@ -100,6 +98,12 @@ echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-date
         </div>
 	</div>
 
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<?php
+echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/moment.min.js');
+echo CHtml::scriptFile($assets.'/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.min.js');
+echo CHtml::scriptFile($assets. '/plugins/bootstrap/datepicker/js/bootstrap-datetimepicker.ru.js');
+?>

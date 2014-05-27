@@ -1,4 +1,5 @@
 <?php
+$this->layout='//layouts/column2';
 $this->breadcrumbs=array(
 	UserModule::t('Profile Fields')=>array('admin'),
 	UserModule::t('Manage'),

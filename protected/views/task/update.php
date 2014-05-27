@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 	$model->title=>array('view','id'=>$model->id),
 	'Редактирование',
 );
-
+$this->pageTitle='Редактирование задачи "'.$model->title.'" - '.Yii::app()->name;
 ?>
 
 <h1>Редактирование задачи <?php echo $model->id; ?></h1>

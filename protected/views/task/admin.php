@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 	'Задачи'=>array('index'),
 	'Администрирование',
 );
-
+$this->pageTitle='Администрирование задач'.' - '.Yii::app()->name;
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){

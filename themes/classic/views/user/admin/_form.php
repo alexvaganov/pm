@@ -82,7 +82,7 @@
 			foreach($profileFields as $field) {
 			?>
     <div class="form-group">
-		<?php echo $form->labelEx($profile,$field->varname); ?>
+		<?php echo $form->labelEx($profile,$field->varname,array('class'=>'col-sm-3 control-label')); ?>
         <div class="col-sm-4">
 		<?php 
             if ($widgetEdit = $field->widgetEdit($profile)) {

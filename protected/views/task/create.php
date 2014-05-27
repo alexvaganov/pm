@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 	'Задачи'=>array('index'),
 	'Постановка',
 );
-
+$this->pageTitle='Создание задачи'.' - '.Yii::app()->name;
 ?>
 
 <h1>Постановка задачи</h1>

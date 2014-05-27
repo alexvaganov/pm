@@ -7,6 +7,7 @@ $this->breadcrumbs=array(
 	$model->title,
 );
 $this->layout='//layouts/private';
+$this->pageTitle=$model->title.' - '.Yii::app()->name;
 ?>
 
 <div id='sidebar-left' class="col-md-2">
@@ -24,7 +25,7 @@ $this->layout='//layouts/private';
                 'tagName'=>'ul',
                 'separator'=>'',
                 'activeLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
-                'inactiveLinkTemplate'=>'<li><a href="{url}">{label}</a></li>',
+                'inactiveLinkTemplate'=>'<li>{label}</li>',
                 'htmlOptions'=>array ('class'=>'breadcrumb')
             )); ?><!-- breadcrumbs -->
             <?php endif; ?>

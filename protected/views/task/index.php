@@ -5,10 +5,10 @@
 $this->breadcrumbs=array(
 	'Задачи',
 );
-
+$this->pageTitle='Задачи'.' - '.Yii::app()->name;
 ?>
 
-<h1 class="col-lg-7"><?php echo $this->pagetitle; ?></h1>
+<h1 class="col-lg-5">Задачи</h1>
 <?php echo CHtml::link('Создать задачу',array('task/create'), array('class'=>'btn btn-success btn-lg pull-right')) ?>
 <div class="clearfix"></div>
 

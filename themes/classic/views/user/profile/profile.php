@@ -14,8 +14,6 @@ $this->menu=array(
 $this->layout='//layouts/column2-user';
 ?>
 
-<h1><?php echo UserModule::t('Your profile'); ?></h1>
-
 <?php if(Yii::app()->user->hasFlash('profileMessage')): ?>
     <div class="success">
         <?php echo Yii::app()->user->getFlash('profileMessage'); ?>

@@ -1,3 +1,7 @@
+html, body, .container-fluid
+{
+    height: 100%;
+}
 body {
     color: #525252;
     background: #6AA6D6 url(../plugins/devoops/img/devoops_pattern_b10.png) 0 0 repeat;
@@ -22,9 +26,8 @@ h1, .h1, h2, .h2, h3, .h3 {
 #username a {
     color: #fff;
     display: block;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 50px;
-    background: url(../plugins/devoops/img/logo.png) right 42px no-repeat;
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
     -o-transition: 0.5s;
@@ -64,8 +67,6 @@ a.show-sidebar:hover {
 #sidebar-left {
     position:relative;
     z-index: inherit;
-    padding-bottom: 2500px !important;
-    margin-bottom: -2480px !important;
     background: #6AA6D6 url(../plugins/devoops/img/devoops_pattern_b10.png) 0 0 repeat;
     -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
@@ -77,13 +78,14 @@ a.show-sidebar:hover {
     z-index: 10;
     background: #ebebeb;
     box-shadow: 0 0 6px #131313;
-    padding-bottom: 2500px !important;
-    margin-bottom: -2480px !important;
-    overflow: hidden;
     -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
     transition: 0.2s;
+    min-height: 100%;
+}
+.full-height {
+    height: 100%;
 }
 .full-content {
     overflow: hidden;
@@ -172,7 +174,8 @@ a.show-sidebar:hover {
 #main {
     margin-top: 50px;
     min-height: 100%;
-    overflow: hidden;
+    overflow: auto;
+
 }
 #search {
     position: relative;
@@ -2366,9 +2369,40 @@ td.beauty-hover {
 {
     min-height: 355px;
 }
+.name a {
+    color: #ffffff;
+}
+.name a:hover {
+    text-decoration: underline;
+}
 
+#change-task, #ready-tasks,
+#not-ready-tasks, #recently-added { display: none; position: relative; font-size: 18px; }
+a.del {
+    display: inline-block;
+    margin: 0 5px 0 -125px;
+    border-radius: 5px;
+}
+a.edit {
+    display: inline-block;
+    margin-right: 5px;
+}
+#recently-added { color: green; }
+#ready-tasks { opacity: 0.5; }
+.checkbox { margin-left: 120px; }
 
+.info { float: left; }
 
+li.task {
+    position: relative;
+    margin: 0 0 10px 115px;
+}
+li.task .shell { margin-left: 45px; }
+
+span.date {
+    position: absolute;
+    right: 100px;
+}
 
 
 

@@ -40,30 +40,6 @@ $this->layout='//layouts/column2-user';
 
 	<?php echo $form->errorSummary(array($model,$profile)); ?>
 
-<?php 
-		$profileFields=$profile->getFields();
-		if ($profileFields) {
-			foreach($profileFields as $field) {
-			?>
-        <div class="form-group">
-		<?php echo $form->labelEx($profile,$field->varname); ?>
-            <div class="col-sm-5">
-                <?php if ($widgetEdit = $field->widgetEdit($profile)) {
-                    echo $widgetEdit;
-                } elseif ($field->range) {
-                    echo $form->dropDownList($profile,$field->varname,Profile::range($field->range));
-                } elseif ($field->field_type=="TEXT") {
-                    echo $form->textArea($profile,$field->varname,array('rows'=>6, 'cols'=>50,'class'=>'form-control'));
-                } else {
-                    echo $form->textField($profile,$field->varname,array('size'=>60,'maxlength'=>(($field->field_size)?$field->field_size:255),'class'=>'form-control'));
-                }
-                echo $form->error($profile,$field->varname); ?>
-            </div>
-	</div>	
-			<?php
-			}
-		}
-?>
 
     <div class="form-group">
 		<?php echo $form->labelEx($model,'email',array('class'=>'col-sm-2 control-label')); ?>
@@ -89,12 +65,36 @@ $this->layout='//layouts/column2-user';
         </div>
     </div>
 
+    <?php
+    $profileFields=$profile->getFields();
+    if ($profileFields) {
+        foreach($profileFields as $field) {
+            ?>
+            <div class="form-group">
+                <?php echo $form->labelEx($profile,$field->varname,array('class'=>'col-sm-2 control-label')); ?>
+                <div class="col-sm-5">
+                    <?php if ($widgetEdit = $field->widgetEdit($profile)) {
+                        echo $widgetEdit;
+                    } elseif ($field->range) {
+                        echo $form->dropDownList($profile,$field->varname,Profile::range($field->range));
+                    } elseif ($field->field_type=="TEXT") {
+                        echo $form->textArea($profile,$field->varname,array('rows'=>6, 'cols'=>50,'class'=>'form-control'));
+                    } else {
+                        echo $form->textField($profile,$field->varname,array('size'=>60,'maxlength'=>(($field->field_size)?$field->field_size:255),'class'=>'form-control'));
+                    }
+                    echo $form->error($profile,$field->varname); ?>
+                </div>
+            </div>
+        <?php
+        }
+    }
+    ?>
+
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-		    <?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save'),array('class'=>'btn btn-default')); ?>
-	    </div>
+            <?php echo CHtml::submitButton($model->isNewRecord ? UserModule::t('Create') : UserModule::t('Save'),array('class'=>'btn btn-default')); ?>
+        </div>
     </div>
-
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

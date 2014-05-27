@@ -19,6 +19,13 @@ body {
   font-weight: 700;
 }
 
+.dramatic-text{
+    padding: 0;
+    margin: 0;
+    font-size: 4em;
+    font-weight: 500;
+    text-shadow:  2px 2px 2px black, 0 0 gray;;
+}
 /* Side Menu */
 
 #sidebar-wrapper {
@@ -127,9 +134,9 @@ body {
 /* Services */
 
 .services {
-  background: #7fbbda;
+  background: #fff;
   padding: 50px 0;
-  color: #ffffff;
+  color: #4c575b;
 }
 
 .service-item {
@@ -181,7 +188,7 @@ i.service-icon {
 
 .call-to-action {
   color: #ffffff;
-  background: #0a5175;
+  background: #3396b4;
   padding: 50px 0;
 }
 
